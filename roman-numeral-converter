@@ -1,0 +1,87 @@
+function convertToRoman(num) {
+ 
+  let newArray = num.toString().split("");
+  let allValues = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
+  function transformThis(thisNum){
+  switch(thisNum){
+  case 1: 
+    return("I");
+   case 4: 
+    return("IV");
+    case 5: 
+    return("V");
+    case 9: 
+    return("IX");
+    case 10: 
+    return("X");
+     case 40: 
+    return("XL");
+      case 50: 
+    return("L");
+    case 90: 
+    return("XC");
+     case 100: 
+    return("C");
+      case 400: 
+    return("CD");
+       case 500: 
+    return("D");
+      case 900: 
+    return("CM");
+     case 1000: 
+    return("M");
+    break;
+    default:
+    return(nonUniqueTransform(thisNum));
+  }
+  }
+let collectNums=[];
+  for(let i=0; i<newArray.length; i++){
+    let startNum= newArray[i];
+    for(let j=i; j< newArray.length; j++){
+    if(j>i){
+    startNum= startNum.toString() + "0";
+    }
+    if(j == newArray.length-1 && newArray[i] != 0){
+      collectNums.push(startNum);
+    }
+    }
+  }
+
+
+function nonUniqueTransform(tNum){
+let thisArray = allValues.slice();
+ thisArray.push(tNum);
+ thisArray.sort((a,b) => a-b);
+ console.log(thisArray);
+ let valueIndex = thisArray.indexOf(tNum);
+ let startValue =  thisArray[valueIndex-1];
+  let nextValue =  thisArray[valueIndex+1];
+ let result = "";
+ let count = 0;
+ let counter=0;
+
+while(count<tNum){
+  count +=startValue;
+  result += transformThis(startValue);
+   while((startValue + startValue) > nextValue){
+  counter++;
+  startValue =  thisArray[(valueIndex)-counter];
+  nextValue =  thisArray[(valueIndex+1)-counter];
+
+ }
+}
+
+
+return result;
+}
+let romanArray =[];
+for(let l=0; l<collectNums.length; l++){
+ 
+  romanArray.push(transformThis(collectNums[l]));
+}
+console.log(romanArray.join(""));
+ return romanArray.join("");
+}
+
+convertToRoman(68);
